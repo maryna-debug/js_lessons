@@ -1,0 +1,321 @@
+{
+	"info": {
+		"_postman_id": "bf24107d-6501-4a69-88a4-83698100b55a",
+		"name": "SOAP Homework 16",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44059070",
+		"_collection_link": "https://marina-11036.postman.co/workspace/test-work~edd0fce7-71da-4afc-9978-0e8d851576b4/collection/44059070-bf24107d-6501-4a69-88a4-83698100b55a?action=share&source=collection_link&creator=44059070"
+	},
+	"item": [
+		{
+			"name": "IsValidISBN13 - valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Беремо відповідь як текст (XML)\r",
+							"const body = pm.response.text();\r",
+							"\r",
+							"// 1) Status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// 2) Body не порожній\r",
+							"pm.test(\"Response body is not empty\", function () {\r",
+							"  pm.expect(body).to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"// 3) Content-Type існує і схожий на XML/SOAP\r",
+							"pm.test(\"Header Content-Type contains xml\", function () {\r",
+							"  const ct = pm.response.headers.get(\"Content-Type\");\r",
+							"  pm.expect(ct).to.exist;\r",
+							"  pm.expect(ct.toLowerCase()).to.include(\"xml\");\r",
+							"});\r",
+							"\r",
+							"// 4) Є SOAP Envelope\r",
+							"pm.test(\"Body contains SOAP Envelope\", function () {\r",
+							"  pm.expect(body).to.include(\"<soap:Envelope\");\r",
+							"});\r",
+							"\r",
+							"// 5) Є SOAP Body\r",
+							"pm.test(\"Body contains SOAP Body\", function () {\r",
+							"  pm.expect(body).to.include(\"<soap:Body\");\r",
+							"});\r",
+							"\r",
+							"// 6) Є відповідь саме від методу IsValidISBN13\r",
+							"pm.test(\"Contains IsValidISBN13Response\", function () {\r",
+							"  pm.expect(body).to.include(\"IsValidISBN13Response\");\r",
+							"});\r",
+							"\r",
+							"// 7) Є тег Result\r",
+							"pm.test(\"Contains IsValidISBN13Result\", function () {\r",
+							"  pm.expect(body).to.include(\"IsValidISBN13Result\");\r",
+							"});\r",
+							"\r",
+							"// 8) Результат true (для валідного ISBN)\r",
+							"pm.test(\"Result is true\", function () {\r",
+							"  pm.expect(body).to.include(\">true<\");\r",
+							"});\r",
+							"\r",
+							"// 9) Немає SOAP Fault\r",
+							"pm.test(\"No SOAP Fault\", function () {\r",
+							"  pm.expect(body).to.not.include(\"Fault\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml; charset=utf-8",
+						"type": "text"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "\"http://webservices.daehosting.com/ISBN/IsValidISBN13\"",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n  <soap:Body>\r\n    <IsValidISBN13 xmlns=\"http://webservices.daehosting.com/ISBN\">\r\n      <sISBN>9780306406157</sISBN>\r\n    </IsValidISBN13>\r\n  </soap:Body>\r\n</soap:Envelope>\r\n",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://webservices.daehosting.com/services/isbnservice.wso",
+					"protocol": "http",
+					"host": [
+						"webservices",
+						"daehosting",
+						"com"
+					],
+					"path": [
+						"services",
+						"isbnservice.wso"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "IsValidISBN13 - invalid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Беремо відповідь як текст (XML)\r",
+							"const body = pm.response.text();\r",
+							"\r",
+							"// 1) Status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// 2) Body не порожній\r",
+							"pm.test(\"Response body is not empty\", function () {\r",
+							"  pm.expect(body).to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"// 3) Content-Type існує і схожий на XML/SOAP\r",
+							"pm.test(\"Header Content-Type contains xml\", function () {\r",
+							"  const ct = pm.response.headers.get(\"Content-Type\");\r",
+							"  pm.expect(ct).to.exist;\r",
+							"  pm.expect(ct.toLowerCase()).to.include(\"xml\");\r",
+							"});\r",
+							"\r",
+							"// 4) Є SOAP Envelope\r",
+							"pm.test(\"Body contains SOAP Envelope\", function () {\r",
+							"  pm.expect(body).to.include(\"<soap:Envelope\");\r",
+							"});\r",
+							"\r",
+							"// 5) Є SOAP Body\r",
+							"pm.test(\"Body contains SOAP Body\", function () {\r",
+							"  pm.expect(body).to.include(\"<soap:Body\");\r",
+							"});\r",
+							"\r",
+							"// 6) Є відповідь саме від методу IsValidISBN13\r",
+							"pm.test(\"Contains IsValidISBN13Response\", function () {\r",
+							"  pm.expect(body).to.include(\"IsValidISBN13Response\");\r",
+							"});\r",
+							"\r",
+							"// 7) Є тег Result\r",
+							"pm.test(\"Contains IsValidISBN13Result\", function () {\r",
+							"  pm.expect(body).to.include(\"IsValidISBN13Result\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Result is false\", function () {\r",
+							"  pm.expect(body).to.include(\">false<\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 9) Немає SOAP Fault\r",
+							"pm.test(\"No SOAP Fault\", function () {\r",
+							"  pm.expect(body).to.not.include(\"Fault\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml; charset=utf-8",
+						"type": "text"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "\"http://webservices.daehosting.com/ISBN/IsValidISBN13\"",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n  <soap:Body>\r\n    <IsValidISBN13 xmlns=\"http://webservices.daehosting.com/ISBN\">\r\n      <sISBN>123</sISBN>\r\n    </IsValidISBN13>\r\n  </soap:Body>\r\n</soap:Envelope>\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://webservices.daehosting.com/services/isbnservice.wso",
+					"protocol": "http",
+					"host": [
+						"webservices",
+						"daehosting",
+						"com"
+					],
+					"path": [
+						"services",
+						"isbnservice.wso"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "IsValidISBN10 - valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Беремо відповідь як текст (XML)\r",
+							"const body = pm.response.text();\r",
+							"\r",
+							"// 1) Status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// 2) Body не порожній\r",
+							"pm.test(\"Response body is not empty\", function () {\r",
+							"  pm.expect(body).to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"// 3) Content-Type існує і схожий на XML/SOAP\r",
+							"pm.test(\"Header Content-Type contains xml\", function () {\r",
+							"  const ct = pm.response.headers.get(\"Content-Type\");\r",
+							"  pm.expect(ct).to.exist;\r",
+							"  pm.expect(ct.toLowerCase()).to.include(\"xml\");\r",
+							"});\r",
+							"\r",
+							"// 4) Є SOAP Envelope\r",
+							"pm.test(\"Body contains SOAP Envelope\", function () {\r",
+							"  pm.expect(body).to.include(\"<soap:Envelope\");\r",
+							"});\r",
+							"\r",
+							"// 5) Є SOAP Body\r",
+							"pm.test(\"Body contains SOAP Body\", function () {\r",
+							"  pm.expect(body).to.include(\"<soap:Body\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Contains IsValidISBN10Response\", function () {\r",
+							"  pm.expect(body).to.include(\"IsValidISBN10Response\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 7) Є тег Result\r",
+							"pm.test(\"Contains IsValidISBN10Response\", function () {\r",
+							"  pm.expect(body).to.include(\"IsValidISBN10Response\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 8) Результат true (для валідного ISBN)\r",
+							"pm.test(\"Result is true\", function () {\r",
+							"  pm.expect(body).to.include(\">true<\");\r",
+							"});\r",
+							"\r",
+							"// 9) Немає SOAP Fault\r",
+							"pm.test(\"No SOAP Fault\", function () {\r",
+							"  pm.expect(body).to.not.include(\"Fault\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml; charset=utf-8",
+						"type": "text"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "\"http://webservices.daehosting.com/ISBN/IsValidISBN10\"",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n  <soap:Body>\r\n    <IsValidISBN10 xmlns=\"http://webservices.daehosting.com/ISBN\">\r\n      <sISBN>0306406152</sISBN>\r\n    </IsValidISBN10>\r\n  </soap:Body>\r\n</soap:Envelope>\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://webservices.daehosting.com/services/isbnservice.wso",
+					"protocol": "http",
+					"host": [
+						"webservices",
+						"daehosting",
+						"com"
+					],
+					"path": [
+						"services",
+						"isbnservice.wso"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
